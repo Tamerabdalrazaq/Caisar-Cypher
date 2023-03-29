@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main>
+        <div class="message_div">
+            <textarea 
+            class="user_input_ta" 
+            id="incrypted_ta" 
+            placeholder="Enter message to be encoded"></textarea>
+        </div>
+        <div class="encryption_div">
+            <div class="key_1">
+                <label for="key_1">key 1</label>
+                <input type="number" id="key_1" name="key_1" min="0" max="100"
+                step="1">
+                <button onclick="document.getElementById('key_1').stepUp()">+</button>
+                <button onclick="document.getElementById('key_1').stepDown()">-</button>
+            </div>
+            <div class="key_2">
+                <label for="key_2">key 2</label>
+                <input type="number" id="key_2" name="key_2" min="0" max="100"
+                step="1">
+                <button onclick="document.getElementById('key_2').stepUp()">+</button>
+                <button onclick="document.getElementById('key_2').stepDown()">-</button>
+            </div>
+
+            <div class="buttons_div">
+                <button id="encrypt_button">Encrypt ↓</button>
+                <button id="decrypt_button">Decrypt ↑</button>
+            </div>
+        </div>
+        <div class="output-div">
+            <textarea
+            class="user_input_ta"
+            id="decrypted_ta"
+            rows="8"
+            cols="30"
+            wrap="hard"
+            placeholder="Enter message to be deciphered"></textarea>
+        </div>
+    
+        
+        <script src="./main.js"></script>
+    </main>
+</body>
+
+</html>
