@@ -101,19 +101,17 @@ function encryptTwoKeys(input, key1, key2) {
       let c = input.charAt(i);
       let upper_case = c == c.toUpperCase();
       let pos = ab.indexOf(c.toUpperCase());
-      let code = i % 2 == 1 ? code_1 : code_2;
+      let code = i % 2 == 0 ? code_1 : code_2;
+      let cc = code.charAt(pos);
       if (pos === -1) cipher.push(c);
-      else
-         cipher.push(
-            upper_case ? code.charAt(pos) : code.charAt(pos).toLocaleLowerCase()
-         );
+      else cipher.push(upper_case ? cc : cc.toLocaleLowerCase());
    }
    return cipher.join("");
 }
 
 function decryptTwoKeys(encrypted) {
-   const first = halfOfString(encrypted, false);
-   const second = halfOfString(encrypted, true);
+   const first = halfOfString(encrypted, true);
+   const second = halfOfString(encrypted, false);
    const key_1 = getKey(first);
    const key_2 = getKey(second);
    const decrypted = encryptTwoKeys(encrypted, key_1, key_2);

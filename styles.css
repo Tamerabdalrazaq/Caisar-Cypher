@@ -93,7 +93,9 @@ main {
 .key_1 button, .key_2 button {
     width: 20px;
     height: 20px;
+    padding: 3px;
     border-radius: 50%;
+    text-align: center;
 }
 
 textarea{
