@@ -99,10 +99,14 @@ function encryptTwoKeys(input, key1, key2) {
    let cipher = [];
    for (i = 0; i < input.length; i++) {
       let c = input.charAt(i);
+      let upper_case = c == c.toUpperCase();
       let pos = ab.indexOf(c.toUpperCase());
       let code = i % 2 == 1 ? code_1 : code_2;
       if (pos === -1) cipher.push(c);
-      else cipher.push(code.charAt(pos).toLocaleLowerCase());
+      else
+         cipher.push(
+            upper_case ? code.charAt(pos) : code.charAt(pos).toLocaleLowerCase()
+         );
    }
    return cipher.join("");
 }
