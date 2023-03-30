@@ -1,12 +1,37 @@
+* {
+    font-family: Verdana, Tahoma, "Trebuchet MS", "DejuVu Sans", "Bitstream Vera Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body{
+    background-color: #f6f6f6;
+}
+
 main {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+}
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
     flex-direction: column;
-    gap: 1rem;
+    gap: .7rem;
+    border: 1px solid #0F0F6D;
+    padding: 1rem;
+    width: fit-content;
 }
 
+.header {
+    border-bottom: 2px solid #0000ff61;
+    padding-bottom: .4rem;
+}
 .user_input_ta{
     width: 15rem;
     height: 8rem;
@@ -16,7 +41,14 @@ main {
 .encryption_div{
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: .4rem;
+    border: 2px solid #0F0F6D;
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+}
+
+.number_input{
+    width: 3rem;
 }
 
 .encryption_div button {
@@ -32,7 +64,7 @@ main {
 }
 
 .buttons_div button {
-    padding: 1rem;
+    padding: .5rem .75rem;
 }
 
 .buttons_div button:hover {
@@ -41,4 +73,28 @@ main {
     border-radius: 10px;
     box-shadow: 0px 6px 15px #0000ff61;
     /* padding: 1.5rem 3.5rem 1.5rem 1.5rem; */
+}
+
+.message_div, .output_div{
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
+.key_1, .key_2{
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.key_1 button, .key_2 button {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+textarea{
+    margin: 2px;
 }

@@ -1,5 +1,12 @@
-let raw = "";
-let deciphered = "";
+const MAX_KEY = 25;
+const MIN_KEY = 0;
+
+const state = {
+   raw: "",
+   ciphertext: "",
+   key_1: 0,
+   key_2: 0,
+};
 
 // DOM Elements
 const raw_textarea = document.getElementById("incrypted_ta");
@@ -8,26 +15,90 @@ const encrypt_button = document.getElementById("encrypt_button");
 const decrypt_button = document.getElementById("decrypt_button");
 const key1_input = document.getElementById("key_1");
 const key2_input = document.getElementById("key_2");
+const slider1_input = document.getElementById("key_1_slider");
+const slider2_input = document.getElementById("key_2_slider");
+const increase_key_button = document.getElementById("increase_key_button");
+const decrease_key_button = document.getElementById("decrease_key_button");
 
-encrypt_button.onclick = handleEncryptInput;
-decrypt_button.onclick = handleDecryptInput;
+raw_textarea.onchange = (e) => (state.raw = e.target.value);
+ciphered_textarea.onchange = (e) => (state.ciphertext = e.target.value);
+raw_textarea.oninput = (e) => (state.raw = e.target.value);
+ciphered_textarea.oninput = (e) => (state.ciphertext = e.target.value);
+encrypt_button.onclick = () => updateState(handleEncryptInput);
+decrypt_button.onclick = () => updateState(handleDecryptInput);
+key1_input.addEventListener("change", (e) =>
+   updateState(handleKey1Input.bind(this, e))
+);
+key2_input.addEventListener("change", (e) =>
+   updateState(handleKey2Input.bind(this, e))
+);
+slider1_input.addEventListener("input", (e) =>
+   updateState(handleKey1Input.bind(this, e))
+);
+slider2_input.addEventListener("input", (e) =>
+   updateState(handleKey2Input.bind(this, e))
+);
+
+updateState(() => null);
+
+// Central State Manager
+console.log("out");
+function updateState(cbf) {
+   console.log("updateState");
+   cbf();
+   console.log(state);
+   raw_textarea.value = state.raw;
+   ciphered_textarea.value = state.ciphertext;
+   key1_input.value = state.key_1;
+   key2_input.value = state.key_2;
+   slider1_input.value = state.key_1;
+   slider2_input.value = state.key_2;
+}
+
+// Event Handlers
 
 function handleEncryptInput(e) {
-   const input = raw_textarea.value;
-   const key_1 = key1_input.value;
-   const key_2 = key2_input.value;
-   const deciphered = encryptTwoKeys(input, key_1, key_2);
-   console.log(deciphered);
-   ciphered_textarea.value = deciphered;
+   console.log("handleEncryptInput");
+   const input = state.raw;
+   const key_1 = state.key_1;
+   const key_2 = state.key_2;
+   const ciphered = encryptTwoKeys(input, key_1, key_2);
+   state.ciphertext = ciphered;
 }
 
 function handleDecryptInput(e) {
-   const input = ciphered_textarea.value;
+   console.log("handleDecryptInput");
+
+   const input = state.ciphertext;
    const { key_1, key_2, decrypted } = decryptTwoKeys(input);
-   key1_input.value = key_1;
-   key2_input.value = key_2;
-   raw_textarea.value = decrypted;
+   state.key_1 = key_1;
+   state.key_2 = key_2;
+   state.raw = decrypted;
 }
+
+function handleKey1Input(e) {
+   console.log("handleKey1Input");
+
+   const val = parseInt(e.target.value);
+   state.key_1 = Math.max(MIN_KEY, val % 26);
+}
+
+function handleKey2Input(e) {
+   console.log("handleKey2Input");
+
+   const val = parseInt(e.target.value);
+   state.key_2 = Math.max(MIN_KEY, val % 26);
+}
+
+function handleButtonClick(id, val) {
+   const key = id;
+   const current_key = parseInt(state[key]);
+   if (val === 1) state[key] = (current_key + val) % 26;
+   if (val === -1) state[key] = Math.max(MIN_KEY, current_key + val);
+   updateState(() => null);
+}
+
+// Functionalities
 
 function encryptTwoKeys(input, key1, key2) {
    let ab = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -51,32 +122,12 @@ function decryptTwoKeys(encrypted) {
    console.log(second);
    const key_1 = getKey(first);
    const key_2 = getKey(second);
-   const decrypted = encryptTwoKeys(encrypted, key_1, key_2);
+   const decrypted = encryptTwoKeys(encrypted, key_2, key_1);
    return {
       key_1,
       key_2,
       decrypted,
    };
-}
-
-// User text input limitations
-
-var charlimit = 5; // char limit per line
-raw_textarea.onkeyup = () => limitTextArea(raw_textarea);
-ciphered_textarea.onkeyup = () => limitTextArea(ciphered_textarea);
-function limitTextArea(box) {
-   var lines = box.value.split("\n");
-   for (var i = 0; i < lines.length; i++) {
-      if (lines[i].length <= charlimit) continue;
-      var j = 0;
-      space = charlimit;
-      while (j++ <= charlimit) {
-         if (lines[i].charAt(j) === " ") space = j;
-      }
-      lines[i + 1] = lines[i].substring(space + 1) + (lines[i + 1] || "");
-      lines[i] = lines[i].substring(0, space);
-   }
-   box.value = lines.slice(0, 10).join("\n");
 }
 
 // HELPERS
@@ -110,5 +161,6 @@ function getCountsArray(str) {
 
 function indexOfMax(arr) {
    const max = arr.indexOf(Math.max(...arr));
+   console.log(max);
    return max;
 }
