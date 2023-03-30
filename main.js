@@ -1,4 +1,4 @@
-const MAX_KEY = 25;
+const MAX_KEY = 26;
 const MIN_KEY = 0;
 
 const state = {
@@ -60,6 +60,7 @@ function updateState(cbf) {
 function handleEncryptInput(e) {
    console.log("handleEncryptInput");
    const input = state.raw;
+   if (input.length == 0) return;
    const key_1 = state.key_1;
    const key_2 = state.key_2;
    const ciphered = encryptTwoKeys(input, key_1, key_2);
@@ -68,11 +69,11 @@ function handleEncryptInput(e) {
 
 function handleDecryptInput(e) {
    console.log("handleDecryptInput");
-
    const input = state.ciphertext;
+   if (input.length == 0) return;
    const { key_1, key_2, decrypted } = decryptTwoKeys(input);
-   state.key_1 = key_1;
-   state.key_2 = key_2;
+   state.key_1 = (MAX_KEY - key_1) % MAX_KEY;
+   state.key_2 = (MAX_KEY - key_2) % MAX_KEY;
    state.raw = decrypted;
 }
 
@@ -116,13 +117,13 @@ function encryptTwoKeys(input, key1, key2) {
 }
 
 function decryptTwoKeys(encrypted) {
-   const first = halfOfString(encrypted, true);
-   const second = halfOfString(encrypted, false);
+   const first = halfOfString(encrypted, false);
+   const second = halfOfString(encrypted, true);
    console.log(first);
    console.log(second);
    const key_1 = getKey(first);
    const key_2 = getKey(second);
-   const decrypted = encryptTwoKeys(encrypted, key_2, key_1);
+   const decrypted = encryptTwoKeys(encrypted, key_1, key_2);
    return {
       key_1,
       key_2,
