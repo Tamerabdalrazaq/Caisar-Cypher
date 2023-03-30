@@ -42,11 +42,8 @@ slider2_input.addEventListener("input", (e) =>
 updateState(() => null);
 
 // Central State Manager
-console.log("out");
 function updateState(cbf) {
-   console.log("updateState");
    cbf();
-   console.log(state);
    raw_textarea.value = state.raw;
    ciphered_textarea.value = state.ciphertext;
    key1_input.value = state.key_1;
@@ -58,7 +55,6 @@ function updateState(cbf) {
 // Event Handlers
 
 function handleEncryptInput(e) {
-   console.log("handleEncryptInput");
    const input = state.raw;
    if (input.length == 0) return;
    const key_1 = state.key_1;
@@ -68,7 +64,6 @@ function handleEncryptInput(e) {
 }
 
 function handleDecryptInput(e) {
-   console.log("handleDecryptInput");
    const input = state.ciphertext;
    if (input.length == 0) return;
    const { key_1, key_2, decrypted } = decryptTwoKeys(input);
@@ -78,15 +73,11 @@ function handleDecryptInput(e) {
 }
 
 function handleKey1Input(e) {
-   console.log("handleKey1Input");
-
    const val = parseInt(e.target.value);
    state.key_1 = Math.max(MIN_KEY, val % 26);
 }
 
 function handleKey2Input(e) {
-   console.log("handleKey2Input");
-
    const val = parseInt(e.target.value);
    state.key_2 = Math.max(MIN_KEY, val % 26);
 }
@@ -119,8 +110,6 @@ function encryptTwoKeys(input, key1, key2) {
 function decryptTwoKeys(encrypted) {
    const first = halfOfString(encrypted, false);
    const second = halfOfString(encrypted, true);
-   console.log(first);
-   console.log(second);
    const key_1 = getKey(first);
    const key_2 = getKey(second);
    const decrypted = encryptTwoKeys(encrypted, key_1, key_2);
@@ -162,6 +151,5 @@ function getCountsArray(str) {
 
 function indexOfMax(arr) {
    const max = arr.indexOf(Math.max(...arr));
-   console.log(max);
    return max;
 }
